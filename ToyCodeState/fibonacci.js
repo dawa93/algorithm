@@ -1,0 +1,73 @@
+// fibonacci
+
+// 문제
+
+// 아래와 같이 정의된 피보나치 수열 중 n번째 항의 수를 리턴해야 합니다.
+
+// 0번째 피보나치 수는 0이고, 1번째 피보나치 수는 1입니다. 그 다음 2번째 피보나치 수부터는 바로 직전의 두 피보나치 수의 합으로 정의합니다.
+// 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ...
+
+// 입력
+
+// 인자 1 : n
+// number 타입의 n (n은 0 이상의 정수)
+
+// 입출력 예시
+// let output = fibonacci(0);
+// console.log(output); // --> 0
+
+// output = fibonacci(1);
+// console.log(output); // --> 1
+
+// output = fibonacci(5);
+// console.log(output); // --> 5
+
+// output = fibonacci(9);
+// console.log(output); // --> 34
+
+// my solution
+
+function fibonacci(n) {
+  // TODO: 여기에 코드를 작성합니다.
+
+  let recursion = (num) => {
+    // base case
+    if (num === 0) return 0;
+    if (num === 1) return 1;
+    if (num === 2) return 1;
+
+    return recursion(num - 1) + recursion(num - 2);
+  };
+
+  return recursion(n);
+}
+
+// 한줄글 : 코드 스테이츠에서는 시간 초과가 나온다. 하지만 크롬에서 돌려봤을때, n이 40까지는 금방 값이 나온다.
+// 그러나 40 이상일때는 시간이 조금 걸린다. 좀 더 빠른 코드가 있으면 좋을거같다.
+
+// reference
+
+// naive solution: O(2^N)
+// let fibonacci = function (n) {
+//   if (n <= 1) return n;
+//   return fibonacci(n - 1) + fibonacci(n - 2);
+// };
+
+// dynamic with meoization: O(N)
+// 이미 해결한 문제의 정답을 따로 기록해두고,
+// 다시 해결하지 않는 기법
+// fibo(10)
+// = fibo(9) + fibo(8)
+// = fibo(8) + fibo(7) + fibo(7) + fibo(6)
+// 여기까지만 보아도 동일한 문제가 중복으로 계산되는 것을 알 수 있다.
+let fibonacci = function (n) {
+  const memo = [0, 1];
+  const aux = (n) => {
+    // 이미 해결한 적이 있으면, 메모해둔 정답을 리턴한다.
+    if (memo[n] !== undefined) return memo[n];
+    // 새롭게 풀어야하는 경우, 문제를 풀고 메모해둔다.
+    memo[n] = aux(n - 1) + aux(n - 2);
+    return memo[n];
+  };
+  return aux(n);
+};
